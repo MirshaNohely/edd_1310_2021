@@ -37,13 +37,56 @@ class  BinarySearchTree:
             self.__recorrido_in( nodo.left )
             print(nodo.data)
             self.__recorrido_in( nodo.right )
+    def __recorrdio_pre(self, nodo):
+        if nodo != None:
+            print(nodo.data, end=", ")
+            self.__recorrdio_pre(nodo.left)
+            self.__recorrdio_pre(nodo.right)
 
-    def transversal( self , format= "inorden" ):
-        if format == "inorden":
-            self.__recorrido_in( self.__root )
-        elif  format == "preorden":
+    def __recorrdio_pos(self, nodo):
+        if nodo != None:
+            self.__recorrdio_pos(nodo.left)
+            self.__recorrdio_pos(nodo.right)
+            print(nodo.data, end=", ")
+
+    def transversal(self, format="in orden"):
+        if format =="in orden":
+            self.__recorrdio_in(self.__root)
+        elif format == "pre orden":
             print("Recorrido en pre")
-        elif format == "posorden":
-            print("posorden")
+            self.__recorrdio_pre(self.__root)
+        elif format == "pos orden":
+            print("Posorden")
+            self.__recorrdio_pos(self.__root)
         else:
             print("Error, ese formato no existe")
+        print("")
+
+    def search(self, value):
+        if self.__root == None:
+            return None
+        else:
+            return self.__search(self.__root, value)
+
+    def __search(self, nodo, value):
+        if nodo == None:
+            return None
+        elif nodo.data == value: #caso base recursividad
+            print("Encontrado")
+            return nodo
+        elif value < nodo.data:
+            #print("Buscar a la izquierda")
+            return self.__search(nodo.left, value)
+        else:
+            #print("Buscar a la derecha")
+            return self.__search(nodo.right, value)
+
+    def remove(self, value):
+        encontrado = self.search(value)
+        #caso 1
+        if encontrado.left == None and encontrado.right == None:
+            print("Eliminando ", encontrado.data)
+            encontrado = None
+        #caso 2
+        elif (encontrado.left != None and encontrado.right == None) or (encontrado.left == None and encontrado.right != None):
+            print("A eliminar: ", encontrado.data)
